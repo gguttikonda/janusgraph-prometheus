@@ -1,0 +1,23 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: database
+  labels:
+    team: backend
+  name: janusgraph-service
+spec:
+  type: ClusterIP
+  ports:
+  - name: jg-port
+    port: 8182
+    protocol: TCP
+    targetPort: jg-port
+  - name: jg-prom-port
+    port: 8090
+    protocol: TCP
+    targetPort: jg-prom-port
+  selector:
+    app: janusgraph
+status:
+  loadBalancer: {}

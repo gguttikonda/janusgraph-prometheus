@@ -1,0 +1,80 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+   namespace: database
+   labels:
+      app: janusgraph
+      team: backend
+   name: janusgraph-deployment
+spec:
+   replicas: 1
+   strategy:
+      rollingUpdate:
+         maxSurge: 25%
+         maxUnavailable: 25%
+      type: RollingUpdate
+   revisionHistoryLimit: 1
+   selector:
+      matchLabels:
+         app: janusgraph
+   template:
+      metadata:
+         labels:
+            app: janusgraph
+      spec:
+         terminationGracePeriodSeconds: 30
+         containers:
+         -  image: janusgraph/janusgraph:0.4
+            name: janusgraph-deployment
+            imagePullPolicy: Always
+            ports:
+            -  name: jg-port
+               protocol: TCP
+               containerPort: 8182
+            -  name: jg-prom-port
+               protocol: TCP
+               containerPort: 8090
+            env:
+            -  name: JAVA_OPTIONS
+               value: "-Xms32m -Xmx2g -javaagent:/opt/janusgraph/prometheus/jmx_prometheus_javaagent-0.3.1.jar=8090:/opt/janusgraph/prometheus/config.yml -javaagent:/opt/janusgraph/lib/jamm-0.3.0.jar -Dgremlin.io.kryoShimService=org.janusgraph.hadoop.serialize.JanusGraphKryoShimService"
+            -  name: JANUS_PROPS_TEMPLATE
+               value: "cql-es"
+            -  name: janusgraph.storage.backend
+               value: "cql"
+            -  name: janusgraph.storage.cql.keyspace
+               value: "janusgraph"
+            -  name: janusgraph.storage.hostname
+               value: "127.0.0.1"
+            -  name: janusgraph.storage.port
+               value: "9042"
+            -  name: janusgraph.cache.db-cache
+               value: "false"
+            -  name: janusgraph.index.search.hostname
+               value: "127.0.0.1"
+            -  name: janusgraph.index.search.index-name
+               value: "janusgraph"
+            -  name: janusgraph.index.search.backend
+               value: "elasticsearch"
+            -  name: janusgraph.storage.cql.read-consistency-level
+               value: "LOCAL_QUORUM"
+            -  name: janusgraph.storage.cql.write-consistency-level
+               value: "LOCAL_QUORUM"
+            -  name: janusgraph.ids.block-size
+               value: "100000"
+            -  name: janusgraph.ids.renew-percentage
+               value: "0.3"
+            -  name: janusgraph.storage.cql.only-use-local-consistency-for-system-operations
+               value: "true"
+            -  name: janusgraph.query.batch
+               value: "true"           
+         volumes:
+         -  name: janusgraph-prom-config-volume
+            configMap:
+               name: janusgraph-prom-config
+               items:
+               -  key: jmx_prometheus_javaagent-0.3.1.jar
+                  path: jmx_prometheus_javaagent-0.3.1.jar
+               -  key: config.yml
+                  path: config.yml
+         restartPolicy: Always
+status: {}

@@ -1,0 +1,20 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: monitoring
+  name: jg-metrics-reader
+  labels:
+    team: backend
+spec:
+  jobLabel: team
+  selector:
+    matchLabels:
+      team: backend
+  namespaceSelector:
+    matchNames:
+    - database
+  endpoints:
+  - port: jg-prom-port
+    interval: 15s
+    path: /metrics
