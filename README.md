@@ -65,7 +65,5 @@ spec:
 ```
 
 ### Grafana ###
-* `datasource` in Dashboard [json](/janusgraph-dashboard.json) is hard-wired `prometheus`. 
-* ![Screenshot](master/janusgraph-dashboard.png)
-
-
+* `datasource` in Dashboard [json](https://github.com/gguttikonda/janusgraph-prometheus/blob/master/janusgraph/janusgraph-dashboard.json) is hard-wired `prometheus`. 
+* ![Screenshot](https://github.com/gguttikonda/janusgraph-prometheus/blob/master/janusgraph/janusgraph-dashboard.png)
