@@ -19,7 +19,7 @@ This setup uses
 ## Setup ##
 
 ### ConfigMap ###
-Upload the [jmx_exporter](https://github.com/prometheus/jmx_exporter) and [config.yml] as ConfigMap
+Upload the [jmx_exporter](https://github.com/prometheus/jmx_exporter) and [config.yml](https://github.com/gguttikonda/janusgraph-prometheus/blob/master/janusgraph/config.yml) as ConfigMap
 
 ```
 namespace='database'
@@ -65,5 +65,5 @@ spec:
 ```
 
 ### Grafana ###
-* `datasource` in Dashboard [json](https://github.com/gguttikonda/janusgraph-prometheus/blob/master/janusgraph/janusgraph-dashboard.json) is hard-wired `prometheus`. 
+* `datasource` in Dashboard [json](https://github.com/gguttikonda/janusgraph-prometheus/blob/master/janusgraph/janusgraph-dashboard.json) is hard-wired `prometheus`.
 * ![Screenshot](https://github.com/gguttikonda/janusgraph-prometheus/blob/master/janusgraph/janusgraph-dashboard.png)
