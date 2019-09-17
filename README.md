@@ -35,7 +35,7 @@ kubectl apply -f janusgraph/janusgraph-deployment.yaml
 
 ### Service ###
 ```
-kubectl apply -f common/janusgraph-service.yaml
+kubectl apply -f janusgraph/janusgraph-service.yaml
 ```
 
 
