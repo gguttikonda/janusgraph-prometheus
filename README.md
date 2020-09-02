@@ -23,8 +23,7 @@ Upload the [jmx_exporter](https://github.com/prometheus/jmx_exporter) and [confi
 
 ```
 namespace='database'
-kubectl create configmap janusgraph-prom-config --namespace=$namespace
-kubectl create configmap janusgraph-prom-config --namespace=$namespace --from-file=janusgraph/  -o yaml --dry-run | kubectl replace -f -
+kubectl create configmap janusgraph-prom-config --namespace=$namespace --from-file=janusgraph/config.yml --from-file=janusgraph/jmx_prometheus_javaagent-0.3.1.jar
 ```
 
 ### Deployment ###
