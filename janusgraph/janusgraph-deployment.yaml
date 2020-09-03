@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
    namespace: database
@@ -24,7 +24,7 @@ spec:
       spec:
          terminationGracePeriodSeconds: 30
          containers:
-         -  image: janusgraph/janusgraph:0.4
+         -  image: janusgraph/janusgraph:0.5.2
             name: janusgraph-deployment
             imagePullPolicy: Always
             ports:
@@ -66,7 +66,10 @@ spec:
             -  name: janusgraph.storage.cql.only-use-local-consistency-for-system-operations
                value: "true"
             -  name: janusgraph.query.batch
-               value: "true"           
+               value: "true"
+            volumeMounts:
+               - name: janusgraph-prom-config-volume
+                 mountPath: /opt/janusgraph/prometheus
          volumes:
          -  name: janusgraph-prom-config-volume
             configMap:
@@ -77,4 +80,3 @@ spec:
                -  key: config.yml
                   path: config.yml
          restartPolicy: Always
-status: {}
